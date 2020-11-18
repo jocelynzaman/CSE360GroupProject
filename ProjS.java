@@ -90,7 +90,7 @@ public class ProjS extends JFrame {
 				Color yella = new Color(255,255,153);
 				
                 JLabel label = new JLabel("<html>Name, Email<br/>Jeffery Erskine, jserskin@asu.edu<br/>"
-                		+ "your name, email<br/>your name, email<br/>your name, email<br/>your name, email<html>");
+                		+ "your name, email<br/>your name, email<br/>your name, email<br/>Jocelyn Zaman, jzaman@asu.edu<html>");
 //                JLabel label1 = new JLabel("<html>Jeffery Erskine, jserskin@asu.edu");
 //                JLabel label2 = new JLabel("your name, email");
 //                JLabel label3 = new JLabel("your name, email");
