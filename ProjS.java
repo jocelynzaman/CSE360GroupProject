@@ -3,7 +3,6 @@ package net.codejava.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,11 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.JScrollBar;
 
 
 public class ProjS extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -56,6 +58,13 @@ public class ProjS extends JFrame {
 		mnNewMenu.add(separator);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Load a Roster");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -82,32 +91,9 @@ public class ProjS extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Team Information");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				JFrame TeamIn = new JFrame("Team Information");
-               
-				TeamIn.setSize( 300, 300 );
-				Color yella = new Color(255,255,153);
-				
-                JLabel label = new JLabel("<html>Name, Email<br/>Jeffery Erskine, jserskin@asu.edu<br/>"
-                		+ "Thao Vu, thaovu@asu.edu<br/>your name, email<br/>your name, email<br/>Jocelyn Zaman, jzaman@asu.edu<html>");
-//                JLabel label1 = new JLabel("<html>Jeffery Erskine, jserskin@asu.edu");
-//                JLabel label2 = new JLabel("your name, email");
-//                JLabel label3 = new JLabel("your name, email");
-//                JLabel label4 = new JLabel("your name, email");
-//                JLabel label5 = new JLabel("your name, email");
-                
-                JPanel panel = new JPanel();
-                panel.add(label);
-//                panel.add(label1);
-//                panel.add(label2);
-//                panel.add(label3);
-//                panel.add(label4);
-//                panel.add(label5);
-                panel.setBackground(yella);
-                TeamIn.add(panel);
-				
-                TeamIn.setVisible(true);		
+						
+				About1 a = new About1();
+				a.About2();
 				
 			}
 		});
@@ -117,7 +103,10 @@ public class ProjS extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		// window.setVisible(true);
+
+		
+
+
 	}
 
 }
