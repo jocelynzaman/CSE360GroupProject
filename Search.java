@@ -9,8 +9,10 @@ public class Search{
 		file.setDialogTitle("File Explorer");
 		file.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (file.showOpenDialog(button_OPEN) == JFileChooser.APPROVE_OPTION) {
+			//include code here;
 			return true;
 		} else {
+			//include code here;
 			return false;
 		}
 		
