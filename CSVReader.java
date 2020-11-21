@@ -1,14 +1,15 @@
-package net.javacode.swing;
+
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
-    private static ArrayList<ArrayList<String>> generatedTable = new ArrayList<ArrayList<String>>();
 
     public final String delimiter = ",";
-    public void read(String csvFile) {
+
+    public ArrayList<ArrayList<String>> read(String csvFile) {
+        ArrayList<ArrayList<String>> generatedTable = new ArrayList<ArrayList<String>>();
         try {
             File file = new File(csvFile);
             FileReader fr = new FileReader(file);
@@ -27,20 +28,9 @@ public class CSVReader {
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
-    }
 
-    public ArrayList<ArrayList<String>> getGeneratedTable(){
         return generatedTable;
     }
 
-    public void printGeneratedTable(){
-        for (List<String> getRow : generatedTable) {
-            for (String data : getRow) {
-                System.out.print(data + " ");
-            }
-
-            System.out.println();
-        }
-    }
 
 }
