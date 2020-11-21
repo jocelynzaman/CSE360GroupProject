@@ -1,8 +1,6 @@
-
+package net.javacode.swing;
 
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
-
 import javax.swing.*;
 
 import java.awt.event.ActionListener;
@@ -48,7 +46,7 @@ public class MainMenu extends JFrame implements ActionListener {
         plotDataItem = new JMenuItem("Plot");
 
         aboutMenu.addMenuListener(new MenuOptionListener());
-        aboutMenu.setMnemonic(KeyEvent.VK_M);
+        //aboutMenu.setMnemonic(KeyEvent.VK_M);
 
         loadARoasterItem.addActionListener(this);
         addAttendanceItem.addActionListener(this);
@@ -79,7 +77,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        
+
         if (actionEvent.getSource() == loadARoasterItem){
             AttendanceTable attendanceTable = new AttendanceTable();
             add(attendanceTable.prepareGUI()); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
@@ -95,7 +93,6 @@ public class MainMenu extends JFrame implements ActionListener {
         }
 
 
-    }    
+    }
 
 }
-

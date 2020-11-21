@@ -1,4 +1,4 @@
-//package net.javacode.swing;
+package net.javacode.swing;
 
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ public class About extends JDialog {
     public void prepareGUI(){
 
         setTitle("About Us");
-        setModalityType(ModalityType.APPLICATION_MODAL); //forces user to close Dialog box before selecting anything else
+         //forces user to close Dialog box before selecting anything else
         JLabel aboutText = new JLabel(setMessage());
         add(aboutText);
         setSize(200, 200);
