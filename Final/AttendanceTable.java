@@ -9,7 +9,7 @@ public class AttendanceTable {
 
 
     public AttendanceTable(){
-        prepareGUI();
+        // prepareGUI();
     }
 
 
@@ -21,6 +21,9 @@ public class AttendanceTable {
         if (dataCollected.length > 0) {
             JTable attendanceTable = new JTable(dataCollected, setTableHeader().toArray());
             JScrollPane paneGUI = new JScrollPane(attendanceTable);
+            attendanceTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            // paneGUI.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            // paneGUI.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             paneGUI.setSize(300, 300);
             paneGUI.setVisible(true);
             return paneGUI;
