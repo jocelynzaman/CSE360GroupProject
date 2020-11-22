@@ -1,8 +1,8 @@
+package net.javacode.swing;
 
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CSVReader {
 
@@ -16,8 +16,9 @@ public class CSVReader {
             BufferedReader br = new BufferedReader(fr);
             String line = "";
             String[] tempArr;
-            ArrayList<String> readLine = new ArrayList<String>();
+
             while((line = br.readLine()) != null) {
+                ArrayList<String> readLine = new ArrayList<String>();
                 tempArr = line.split(delimiter);
                 for (String tempStr : tempArr) {
                     readLine.add(tempStr);
@@ -27,6 +28,13 @@ public class CSVReader {
             br.close();
         } catch(IOException ioe) {
             ioe.printStackTrace();
+        }
+
+        for (int i = 0; i < generatedTable.size(); i++) {
+            for (int j = 0; j < generatedTable.get(i).size(); j++) {
+                System.out.print(generatedTable.get(i).get(j) + " ");
+            }
+            System.out.println();
         }
 
         return generatedTable;
