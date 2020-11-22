@@ -3,11 +3,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
-public class MainMenu extends JFrame implements ActionListener {
+public class MainMenu extends JFrame {
 
     static JMenuBar menuBar;
     static JMenu fileMenu, aboutMenu;
@@ -15,7 +11,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
     public MainMenu() {
         createMenuBar();
-        prepareGUI();
+        // prepareGUI();
 
     }
 
@@ -45,13 +41,13 @@ public class MainMenu extends JFrame implements ActionListener {
         saveItem = new JMenuItem("Save");
         plotDataItem = new JMenuItem("Plot");
 
-        aboutMenu.addMenuListener(new MenuOptionListener());
-        //aboutMenu.setMnemonic(KeyEvent.VK_M);
-
-        loadARoasterItem.addActionListener(this);
-        addAttendanceItem.addActionListener(this);
-        saveItem.addActionListener(this);
-        plotDataItem.addActionListener(this);
+        // create controller
+        MenuOptionListener controller = new MenuOptionListener(this, loadARoasterItem, addAttendanceItem, saveItem, plotDataItem);
+        aboutMenu.addMenuListener(controller);
+        loadARoasterItem.addActionListener(controller);
+        addAttendanceItem.addActionListener(controller);
+        saveItem.addActionListener(controller);
+        plotDataItem.addActionListener(controller);
 
         //add menu item to each menu options
         fileMenu.add(loadARoasterItem);
@@ -65,35 +61,10 @@ public class MainMenu extends JFrame implements ActionListener {
         //add menu options to menu bar
         menuBar.add(fileMenu);
         menuBar.add(aboutMenu);
-
-
     }
 
     public static void main(String[] argv){
         MainMenu mainMenu = new MainMenu();
         mainMenu.prepareGUI();
     }
-
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
-        if (actionEvent.getSource() == loadARoasterItem){
-            AttendanceTable attendanceTable = new AttendanceTable();
-            add(attendanceTable.prepareGUI()); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
-        }
-        if (actionEvent.getSource() == addAttendanceItem){
-
-        }
-        if (actionEvent.getSource() == saveItem){
-
-        }
-        if (actionEvent.getSource() == plotDataItem){
-            PlotData plotData = new PlotData();
-            plotData.prepareGUI();
-        }
-
-
-    }
-
 }
