@@ -1,4 +1,4 @@
-package net.javacode.swing;
+// package net.javacode.swing;
 
 import java.awt.*;
 import javax.swing.*;
@@ -89,7 +89,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
         }
         if (actionEvent.getSource() == plotDataItem){
-
+            PlotData plotData = new PlotData();
+            plotData.prepareGUI();
         }
 
 
