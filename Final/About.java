@@ -6,15 +6,14 @@ public class About extends JDialog {
 
     public About(){
         // prepareGUI();
+        JLabel aboutText = new JLabel(setMessage(), SwingConstants.CENTER);
+        aboutText.setVerticalAlignment(SwingConstants.CENTER);
+        add(aboutText);
     }
 
     public void prepareGUI(){
 
         setTitle("About Us");
-         //forces user to close Dialog box before selecting anything else
-        JLabel aboutText = new JLabel(setMessage(), SwingConstants.CENTER);
-        aboutText.setVerticalAlignment(SwingConstants.CENTER);
-        add(aboutText);
         setSize(300, 200);
         setVisible(true);
 
