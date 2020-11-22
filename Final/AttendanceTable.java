@@ -1,4 +1,4 @@
-
+package net.javacode.swing;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -15,15 +15,12 @@ public class AttendanceTable {
 
     public JScrollPane prepareGUI(){
 
-        //String data[][]={ {"101","Amit","670000", "102","Jai","780000"}}; //Test data
         String[][] dataCollected = setTableData();
 
         if (dataCollected.length > 0) {
             JTable attendanceTable = new JTable(dataCollected, setTableHeader().toArray());
             JScrollPane paneGUI = new JScrollPane(attendanceTable);
             attendanceTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            // paneGUI.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            // paneGUI.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             paneGUI.setSize(300, 300);
             paneGUI.setVisible(true);
             return paneGUI;
@@ -40,9 +37,8 @@ public class AttendanceTable {
     }
 
     private String[][] setTableData(){
-        //Search searchFile = new Search();
-        //String fileName = searchFile.search();
-        String fileName = Search.search();
+        Search searchFile = new Search();
+        String fileName = searchFile.search();
         CSVReader readFile = new CSVReader();
         ArrayList<ArrayList<String>> dynamicdataCollected = readFile.read(fileName);
         String [][] dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
