@@ -72,12 +72,12 @@ public class Attendance {
                 testUIndex = unregisteredDupeCheck(unregistered, testASURITE);
                 if (testUIndex == -1)
                 {
-                    unregistered.get(testUIndex).setTime(unregistered.get(testUIndex).getTime() + time);
+                    UnregisteredAttendee UA = new UnregisteredAttendee(testASURITE, time);
+                    unregistered.add(UA);
                 }
                 else
                 {
-                    UnregisteredAttendee UA = new UnregisteredAttendee(testASURITE, time);
-                    unregistered.add(UA);
+                    unregistered.get(testUIndex).setTime(unregistered.get(testUIndex).getTime() + time);
                 }
             }
         }
