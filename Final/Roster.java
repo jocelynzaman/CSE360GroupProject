@@ -1,3 +1,5 @@
+package net.javacode.swing;
+
 import java.util.ArrayList;
 
 public class Roster extends ArrayList<Student>{
@@ -5,7 +7,7 @@ public class Roster extends ArrayList<Student>{
     //StudentList attributes
     //private ArrayList<Student> sList;
     private int size;
-    private CSVReader fileReader;
+    private CSVReader fileReader ;
 
     public Roster(CSVReader reader)
     {
@@ -15,7 +17,7 @@ public class Roster extends ArrayList<Student>{
     }
 
     //this fills a roster based on a given CSV file
-    public void fill(String fileName)
+    public ArrayList<ArrayList<String>> fill(String fileName)
     {
         //generating table of student information
         ArrayList<ArrayList<String>> table = fileReader.read(fileName);
@@ -33,6 +35,7 @@ public class Roster extends ArrayList<Student>{
             }
             //else duplicate id has been found and not added
         }
+        return table;
     }
 
     public boolean addStudent(String id, String first, String last, String program, String level, String ASURITE)

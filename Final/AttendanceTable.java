@@ -1,3 +1,4 @@
+package net.javacode.swing;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class AttendanceTable {
         Search searchFile = new Search();
         String fileName = searchFile.search();
         CSVReader readFile = new CSVReader();
-        ArrayList<ArrayList<String>> dynamicdataCollected = readFile.read(fileName);
+        Roster loadARoster = new Roster(readFile);
+        ArrayList<ArrayList<String>> dynamicdataCollected = loadARoster.fill(fileName);
         String [][] dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
         System.out.println(dynamicdataCollected.size());
 
