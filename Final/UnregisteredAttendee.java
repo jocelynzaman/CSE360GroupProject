@@ -19,4 +19,9 @@ public class UnregisteredAttendee {
     {
         return time;
     }
+
+    public void setTime(int newTime)
+    {
+        time = newTime;
+    }
 }

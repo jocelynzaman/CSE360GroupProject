@@ -11,29 +11,44 @@ public class Attendance {
     private ArrayList<UnregisteredAttendee> unregistered;
     private String fileName;
 
+
     public Attendance(int month, int day, int rosterSize, String fileName)
     {
         this.month = convertMonth(month);
         this.day = day;
         this.attendees = 0;
         this.additional = 0;
-        times = new int[rosterSize];
+        times = initArray(times, rosterSize);
         unregistered = new ArrayList<UnregisteredAttendee>();
         this.fileName = fileName;
+    }
+
+    public int[] initArray(int[] array, int size)
+    {
+        array = new int[size];
+        for(int xx = 0; xx < size; xx++)
+        {
+            array[xx] = 0;
+        }
+        return array;
     }
 
     public void fill(Roster sRoster, CSVReader fileReader)
     {
         //temp values that will be used to find ASURITE index and fill times array
         String testASURITE;
+        int testUIndex; //used for testing whether or not unregistered user has appeared earlier in the file
         int index;
         int time;
 
         //generating table of ASURITES and times
         ArrayList<ArrayList<String>> table = fileReader.read(fileName);
 
+        //creating arrayList of used indices for tracking # of attendees
+        ArrayList<Integer> track = new ArrayList<Integer>();
+
         //grabbing the y dimension of the table
-        int ySize = table.get(0).size();
+        int ySize = table.size();
 
         for (int yy = 0; yy < ySize; yy++)
         {
@@ -43,16 +58,46 @@ public class Attendance {
 
             if (index != -1)
             {
-                times[index] = time;
-                attendees++;
+                times[index] += time;
+
+                //checking to see if this attendee has already been accounted for, if not, increment attendees
+                if (!track.contains(index))
+                {
+                    track.add(index);
+                    attendees++;
+                }
             }
             else
             {
-                UnregisteredAttendee UA = new UnregisteredAttendee(testASURITE, time);
-                unregistered.add(UA);
+                testUIndex = unregisteredDupeCheck(unregistered, testASURITE);
+                if (testUIndex == -1)
+                {
+                    unregistered.get(testUIndex).setTime(unregistered.get(testUIndex).getTime() + time);
+                }
+                else
+                {
+                    UnregisteredAttendee UA = new UnregisteredAttendee(testASURITE, time);
+                    unregistered.add(UA);
+                }
             }
         }
+        //count how many unregistered attendees were present
         additional = unregistered.size();
+    }
+
+    public int unregisteredDupeCheck(ArrayList<UnregisteredAttendee> list, String testName)
+    {
+        int size = list.size();
+        for (int xx = 0; xx < size; xx++)
+        {
+            //check if this name already exists
+            if (list.get(xx).getName().equals(testName))
+            {
+                return xx;
+            }
+        }
+        //else
+        return -1;
     }
 
     public String convertMonth(int intMonth)
@@ -120,6 +165,12 @@ public class Attendance {
     public int getAdditional()
     {
         return additional;
+    }
+
+    //returns the array of time students spent in the lecture
+    public int[] getData()
+    {
+        return times;
     }
 
     public String getMessage()

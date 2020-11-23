@@ -3,12 +3,12 @@ public class Student {
     //Student attributes
     private String first_name;
     private String last_name;
-    private int id;
+    private String id;
     private String program;
     private String level;
     private String ASURITE;
 
-    public Student(String first, String last, int id, String program, String level, String ASURITE)
+    public Student(String id, String first, String last, String program, String level, String ASURITE)
     {
         this.first_name = first;
         this.last_name = last;
@@ -28,7 +28,7 @@ public class Student {
         return last_name;
     }
 
-    public int getId()
+    public String getID()
     {
         return id;
     }

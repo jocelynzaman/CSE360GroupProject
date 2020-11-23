@@ -14,6 +14,7 @@ public class Roster extends ArrayList<Student>{
         size = 0;
     }
 
+    //this fills a roster based on a given CSV file
     public void fill(String fileName)
     {
         //generating table of student information
@@ -24,16 +25,21 @@ public class Roster extends ArrayList<Student>{
 
         for (int yy = 0; yy < ySize; yy++)
         {
-            ArrayList<String> temp = table.get(yy);
-            addStudent(Integer.parseInt(temp.get(0)), temp.get(1), temp.get(2), temp.get(3), temp.get(4), temp.get(5));
+            //checking if given ID is a duplicate
+            if (!duplicateCheck(table.get(yy).get(0)))
+            {
+                ArrayList<String> temp = table.get(yy);
+                addStudent(temp.get(0), temp.get(1), temp.get(2), temp.get(3), temp.get(4), temp.get(5));
+            }
+            //else duplicate id has been found and not added
         }
     }
 
-    public boolean addStudent(int id, String first, String last, String program, String level, String ASURITE)
+    public boolean addStudent(String id, String first, String last, String program, String level, String ASURITE)
     {
         try
         {
-            Student newStudent = new Student(first, last, id, program, level, ASURITE);
+            Student newStudent = new Student(id, first, last, program, level, ASURITE);
             add(newStudent);
             size++;
         } catch(Exception e) //try for any exception to see if adding was successful
@@ -54,6 +60,18 @@ public class Roster extends ArrayList<Student>{
             }
         }
         return -1;
+    }
+
+    public boolean duplicateCheck(String ID)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (get(i).getID().equals(ID))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getSize()
