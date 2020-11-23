@@ -181,23 +181,25 @@ public class Attendance {
         message += "Data loaded for " + attendees
                 + " users in the roster.\n"
                 + additional;
-         if (additional > 1)
-         {
-             message += " additional attendees were found:\n";
-         }
-         else
-         {
-             message += " additional attendee was found:\n";
-         }
-
-        for (int xx = 0; xx < size; xx++)
+        if (additional != 0)
         {
-            message += unregistered.get(xx).getName()
-                    + ", connected for "
-                    + unregistered.get(xx).getTime()
-                    + " minute\n";
-        }
+            if (additional > 1)
+            {
+                message += " additional attendees were found:\n";
+            }
+            else
+            {
+                message += " additional attendee was found:\n";
+            }
 
+            for (int xx = 0; xx < size; xx++)
+            {
+                message += unregistered.get(xx).getName()
+                        + ", connected for "
+                        + unregistered.get(xx).getTime()
+                        + " minute\n";
+            }
+        }
         return message;
     }
 }
