@@ -1,4 +1,4 @@
-// package net.javacode.swing;
+//package net.javacode.swing; Package throws error for me commenting this out.
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -14,6 +14,8 @@ class MenuOptionListener implements MenuListener, ActionListener{
     About aboutDialog = new About();
     MainMenu mainView;
     JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
+    JScrollPane tableGUI;
+    AttendanceTable attendanceTable = new AttendanceTable();
 
     public MenuOptionListener(MainMenu menu, JMenuItem load, JMenuItem add, JMenuItem save, JMenuItem plot)
     {
@@ -28,8 +30,13 @@ class MenuOptionListener implements MenuListener, ActionListener{
     public void actionPerformed(ActionEvent actionEvent) {
 
         if (actionEvent.getSource() == loadARoasterItem){
-            AttendanceTable attendanceTable = new AttendanceTable();
-            mainView.add(attendanceTable.prepareGUI()); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
+            try {
+                mainView.remove(tableGUI);
+            } catch (NullPointerException e) {
+                //There is no tableGUI in mainView.
+            }
+            tableGUI = attendanceTable.prepareGUI();
+            mainView.add(tableGUI); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
         }
         if (actionEvent.getSource() == addAttendanceItem){
 

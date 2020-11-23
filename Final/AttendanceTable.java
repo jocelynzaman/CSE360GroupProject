@@ -1,4 +1,3 @@
-package net.javacode.swing;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -6,6 +5,9 @@ import java.util.Arrays;
 
 
 public class AttendanceTable {
+    JTable attendanceTable;
+    String[][] dataCollected;
+    JScrollPane paneGUI;
 
 
     public AttendanceTable(){
@@ -15,11 +17,11 @@ public class AttendanceTable {
 
     public JScrollPane prepareGUI(){
 
-        String[][] dataCollected = setTableData();
+        dataCollected = setTableData();
 
         if (dataCollected.length > 0) {
-            JTable attendanceTable = new JTable(dataCollected, setTableHeader().toArray());
-            JScrollPane paneGUI = new JScrollPane(attendanceTable);
+            attendanceTable = new JTable(dataCollected, setTableHeader().toArray());  
+            paneGUI = new JScrollPane(attendanceTable);
             attendanceTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             paneGUI.setSize(300, 300);
             paneGUI.setVisible(true);
