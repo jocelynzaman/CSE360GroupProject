@@ -3,9 +3,16 @@
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
+import org.jdatepicker.DateModel;
+import org.jdatepicker.DatePicker;
+import org.jdatepicker.JDatePicker;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Properties;
+// import java.util.Properties;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -16,6 +23,13 @@ class MenuOptionListener implements MenuListener, ActionListener{
     JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
     JScrollPane tableGUI;
     AttendanceTable attendanceTable = new AttendanceTable();
+    
+    //Date Picker
+    JDialog dateDialog = new JDialog();
+    JPanel datePanel = new JPanel();
+    DatePicker picker = new JDatePicker();
+    
+
 
     public MenuOptionListener(MainMenu menu, JMenuItem load, JMenuItem add, JMenuItem save, JMenuItem plot)
     {
@@ -35,11 +49,37 @@ class MenuOptionListener implements MenuListener, ActionListener{
             } catch (NullPointerException e) {
                 //There is no tableGUI in mainView.
             }
+            attendanceTable.setTableRoster();
             tableGUI = attendanceTable.prepareGUI();
             mainView.add(tableGUI); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
         }
         if (actionEvent.getSource() == addAttendanceItem){
-
+            //Show Date Picker
+            picker.setTextEditable(true);
+            picker.setShowYearButtons(true);
+            datePanel.add((JComponent)picker);
+            JPanel DatePanel = new JPanel();
+            DatePanel.setLayout(new BorderLayout());
+            DatePanel.add(datePanel, BorderLayout.WEST);
+            BorderLayout fb = new BorderLayout();
+            dateDialog.setSize(300,100);
+            dateDialog.add(datePanel);
+            dateDialog.setVisible(true);
+            
+            //Setup updated JTable
+            if (picker.getModel().isSelected())
+            {
+                try {
+                    mainView.remove(tableGUI);
+                } catch (NullPointerException e) {
+                    //There is no tableGUI in mainView.
+                }
+                attendanceTable.updateTableData(picker.getModel().getMonth(), picker.getModel().getDay());
+                tableGUI = attendanceTable.prepareGUI();
+                mainView.add(tableGUI);
+                mainView.validate();
+                mainView.repaint();
+            }
         }
         if (actionEvent.getSource() == saveItem){
 
