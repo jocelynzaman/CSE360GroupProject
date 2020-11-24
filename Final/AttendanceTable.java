@@ -1,13 +1,13 @@
-// package net.javacode.swing;
+package net.javacode.swing;// package net.javacode.swing;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
+import javax.swing.table.TableModel;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
 
 public class AttendanceTable{
     DefaultTableModel tableModel;
@@ -79,6 +79,27 @@ public class AttendanceTable{
         String header = attendance.get(0).convertMonth(month+1) + " " + day;
         Object columnData[] = attendance.get(0).getData();
         tableModel.addColumn(header, columnData);
+    }
+
+    public void exportTable() throws IOException {
+        File exportFile = new File("Attendance.csv");
+        TableModel model = attendanceTable.getModel();
+        FileWriter out = new FileWriter(exportFile);
+
+        out.write(model.getColumnName(0));
+        for (int i = 1; i < model.getColumnCount(); i++) {
+            out.write(", " + model.getColumnName(i));
+        }
+        out.write("\n");
+        for (int i = 0; i < model.getRowCount(); i++) {
+            out.write(model.getValueAt(i, 0).toString());
+            for (int j = 1; j < model.getColumnCount(); j++) {
+                out.write( ", " + model.getValueAt(i, j).toString());
+            }
+            out.write("\n");
+        }
+        out.close();
+        System.out.println("write out to: " + exportFile);
     }
 
     // public void update(Observable o, int month, int day)

@@ -1,21 +1,20 @@
-//package net.javacode.swing; Package throws error for me commenting this out.
+package net.javacode.swing;//package net.javacode.swing; Package throws error for me commenting this out.
+
+
+import org.jdatepicker.DatePicker;
+import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-
-import org.jdatepicker.DateModel;
-import org.jdatepicker.DatePicker;
-import org.jdatepicker.JDatePicker;
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Properties;
+import java.io.IOException;
+
 // import java.util.Properties;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 class MenuOptionListener implements MenuListener, ActionListener{
     About aboutDialog = new About();
@@ -82,7 +81,11 @@ class MenuOptionListener implements MenuListener, ActionListener{
             }
         }
         if (actionEvent.getSource() == saveItem){
-
+            try {
+                attendanceTable.exportTable();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (actionEvent.getSource() == plotDataItem){
             PlotData plotData = new PlotData();
