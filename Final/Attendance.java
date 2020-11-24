@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-public class Attendance {
+import javax.lang.model.util.ElementScanner14;
+
+public class Attendance{
 
     //Attendance attributes
     private String month;
@@ -8,6 +10,7 @@ public class Attendance {
     private int attendees;
     private int additional;
     private int[] times;
+    private int timesSize;
     private ArrayList<UnregisteredAttendee> unregistered;
     private String fileName;
 
@@ -19,6 +22,7 @@ public class Attendance {
         this.attendees = 0;
         this.additional = 0;
         times = initArray(times, rosterSize);
+        timesSize = rosterSize;
         unregistered = new ArrayList<UnregisteredAttendee>();
         this.fileName = fileName;
     }
@@ -105,16 +109,16 @@ public class Attendance {
         String month;
         switch (intMonth) {
             case 1:
-                month = "January";
+                month = "Jan";
                 break;
             case 2:
-                month = "February";
+                month = "Feb";
                 break;
             case 3:
-                month = "March";
+                month = "Mar";
                 break;
             case 4:
-                month = "April";
+                month = "Apr";
                 break;
             case 5:
                 month = "May";
@@ -126,19 +130,19 @@ public class Attendance {
                 month = "July";
                 break;
             case 8:
-                month = "August";
+                month = "Aug";
                 break;
             case 9:
-                month = "September";
+                month = "Sept";
                 break;
             case 10:
-                month = "October";
+                month = "Oct";
                 break;
             case 11:
-                month = "November";
+                month = "Nov";
                 break;
             case 12:
-                month = "December";
+                month = "Dec";
                 break;
             default:
                 month = "Invalid month";
@@ -168,9 +172,24 @@ public class Attendance {
     }
 
     //returns the array of time students spent in the lecture
-    public int[] getData()
+    public String[] getData()
+    {
+        String stringTimes[] = new String[timesSize];
+        for (int i = 0; i < timesSize; i++)
+        {
+            stringTimes[i] = "" + (times[i]);
+        }
+        return stringTimes;
+    }
+
+    public int[] getTimes()
     {
         return times;
+    }
+
+    public int getTimesSize()
+    {
+        return timesSize;
     }
 
     public String getMessage()
@@ -178,18 +197,21 @@ public class Attendance {
         String message = "";
         int size = unregistered.size();
 
-        message += "Data loaded for " + attendees
-                + " users in the roster.\n"
-                + additional;
+        message += "<html>Data loaded for " + attendees
+                + " users in the roster.<br>";
         if (additional != 0)
         {
             if (additional > 1)
             {
-                message += " additional attendees were found:\n";
+                message +=  additional + " additional attendees were found:<br>";
+            }
+            else if (additional == 0)
+            {
+                message += "No additional attendees were found<br>";
             }
             else
             {
-                message += " additional attendee was found:\n";
+                message += additional + " additional attendee was found:<br>";
             }
 
             for (int xx = 0; xx < size; xx++)
@@ -197,7 +219,7 @@ public class Attendance {
                 message += unregistered.get(xx).getName()
                         + ", connected for "
                         + unregistered.get(xx).getTime()
-                        + " minute\n";
+                        + " minute<br>";
             }
         }
         return message;
