@@ -17,6 +17,7 @@ public class AttendanceTable{
     ArrayList<String> dynamicColumnHeader;
     ArrayList<ArrayList<String>> dynamicdataCollected;
     Roster loadARoster;
+    AttendenceList attendanceList;
 
 
     public AttendanceTable(){
@@ -69,20 +70,18 @@ public class AttendanceTable{
     }
 
 
-    public void updateTableData(int month, int day)
+    public void updateTableData(int month, int day, PlotData plot)
     {
         Search searchFile = new Search();
         String fileName = searchFile.search();
         CSVReader readFile = new CSVReader();
-        AttendenceList attendance = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
-        attendance.addAttendence(month, day, fileName);
-        String header = attendance.get(0).convertMonth(month+1) + " " + day;
-        Object columnData[] = attendance.get(0).getData();
+        attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
+        attendanceList.addAttendence(month, day, fileName);
+        String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
+        Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
         tableModel.addColumn(header, columnData);
-    }
 
-    // public void update(Observable o, int month, int day)
-    // {
-    //     // dynamicdataCollected.add(((AttendenceList)o).addAttendence(month, day, String fileName));
-    // }
+        //when attendance is added, plot needs to be updated
+        plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+    }
 }
