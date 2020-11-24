@@ -1,5 +1,4 @@
-package net.javacode.swing;//package net.javacode.swing; Package throws error for me commenting this out.
-
+//package net.javacode.swing; Package throws error for me commenting this out.
 
 import org.jdatepicker.DatePicker;
 import org.jdatepicker.JDatePicker;
@@ -22,13 +21,12 @@ class MenuOptionListener implements MenuListener, ActionListener{
     JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
     JScrollPane tableGUI;
     AttendanceTable attendanceTable = new AttendanceTable();
+    PlotData plotData = new PlotData();
     
     //Date Picker
     JDialog dateDialog = new JDialog();
     JPanel datePanel = new JPanel();
     DatePicker picker = new JDatePicker();
-    
-
 
     public MenuOptionListener(MainMenu menu, JMenuItem load, JMenuItem add, JMenuItem save, JMenuItem plot)
     {
@@ -45,6 +43,7 @@ class MenuOptionListener implements MenuListener, ActionListener{
         if (actionEvent.getSource() == loadARoasterItem){
             try {
                 mainView.remove(tableGUI);
+                plotData.clearDataset(); //need to clear plot if new roster is loaded
             } catch (NullPointerException e) {
                 //There is no tableGUI in mainView.
             }
@@ -73,7 +72,7 @@ class MenuOptionListener implements MenuListener, ActionListener{
                 } catch (NullPointerException e) {
                     //There is no tableGUI in mainView.
                 }
-                attendanceTable.updateTableData(picker.getModel().getMonth(), picker.getModel().getDay());
+                attendanceTable.updateTableData(picker.getModel().getMonth()+1, picker.getModel().getDay(), plotData);
                 tableGUI = attendanceTable.prepareGUI();
                 mainView.add(tableGUI);
                 mainView.validate();
@@ -88,7 +87,6 @@ class MenuOptionListener implements MenuListener, ActionListener{
             }
         }
         if (actionEvent.getSource() == plotDataItem){
-            PlotData plotData = new PlotData();
             plotData.prepareGUI();
         }
 
