@@ -7,7 +7,7 @@ public class MainMenu extends JFrame {
 
     static JMenuBar menuBar;
     static JMenu fileMenu, aboutMenu;
-    static JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
+    static JMenuItem loadARosterItem, addAttendanceItem, saveItem, plotDataItem;
 
     public MainMenu() {
         createMenuBar();
@@ -36,21 +36,21 @@ public class MainMenu extends JFrame {
         aboutMenu = new JMenu("About");
 
         // create menu items
-        loadARoasterItem = new JMenuItem("Load A Roaster");
+        loadARosterItem = new JMenuItem("Load A Roster");
         addAttendanceItem = new JMenuItem("Add Attendance");
         saveItem = new JMenuItem("Save");
         plotDataItem = new JMenuItem("Plot");
 
         // create controller
-        MenuOptionListener controller = new MenuOptionListener(this, loadARoasterItem, addAttendanceItem, saveItem, plotDataItem);
+        MenuOptionListener controller = new MenuOptionListener(this, loadARosterItem, addAttendanceItem, saveItem, plotDataItem);
         aboutMenu.addMenuListener(controller);
-        loadARoasterItem.addActionListener(controller);
+        loadARosterItem.addActionListener(controller);
         addAttendanceItem.addActionListener(controller);
         saveItem.addActionListener(controller);
         plotDataItem.addActionListener(controller);
 
         //add menu item to each menu options
-        fileMenu.add(loadARoasterItem);
+        fileMenu.add(loadARosterItem);
         fileMenu.addSeparator();
         fileMenu.add(addAttendanceItem);
         fileMenu.addSeparator();
