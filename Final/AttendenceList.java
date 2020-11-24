@@ -1,4 +1,4 @@
-package net.javacode.swing;
+// package net.javacode.swing;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ public class AttendenceList {
         newAttendance.fill(sRoster, fileReader);
         aList.add(newAttendance);
         displayMessage(newAttendance);
-        size++;
         // setChanged();
         // notifyObservers();
     }
