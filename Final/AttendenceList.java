@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import javax.swing.*;
+import java.util.Observable;
 
-public class AttendenceList extends ArrayList<Attendance>{
+public class AttendenceList {
 
     //AttendanceList attributes
-    //private ArrayList<Attendance> aList;
+    private ArrayList<Attendance> aList;
     private Roster sRoster;
     private int size;
     private CSVReader fileReader;
@@ -12,6 +13,7 @@ public class AttendenceList extends ArrayList<Attendance>{
     //constructor
     public AttendenceList(Roster sRoster, int size, CSVReader reader)
     {
+        aList = new ArrayList<Attendance>();
         this.sRoster = sRoster;
         this.size = size;
         fileReader = reader;
@@ -32,8 +34,16 @@ public class AttendenceList extends ArrayList<Attendance>{
     {
         Attendance newAttendance = new Attendance(month, day, sRoster.getSize(), fileName);
         newAttendance.fill(sRoster, fileReader);
-        add(newAttendance);
+        aList.add(newAttendance);
         displayMessage(newAttendance);
+        size++;
+        // setChanged();
+        // notifyObservers();
+    }
+
+    public ArrayList<Attendance> getAttendance()
+    {
+        return aList;
     }
 
     public int getSize()
