@@ -1,4 +1,4 @@
-package net.javacode.swing;
+// package net.javacode.swing;
 
 import java.util.ArrayList;
 
@@ -57,7 +57,7 @@ public class Roster extends ArrayList<Student>{
     {
         for (int i = 0; i < size; i++)
         {
-            if ((get(i).getASURITE().equals(ASURITE)))
+            if (get(i).getASURITE().toLowerCase().equals((ASURITE).toLowerCase()))
             {
                 return i;
             }
