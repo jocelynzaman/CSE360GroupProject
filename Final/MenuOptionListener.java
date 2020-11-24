@@ -22,7 +22,6 @@ class MenuOptionListener implements MenuListener, ActionListener{
     JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
     JScrollPane tableGUI;
     AttendanceTable attendanceTable = new AttendanceTable();
-    PlotData plotData = new PlotData();
     
     //Date Picker
     JDialog dateDialog = new JDialog();
@@ -46,7 +45,6 @@ class MenuOptionListener implements MenuListener, ActionListener{
         if (actionEvent.getSource() == loadARoasterItem){
             try {
                 mainView.remove(tableGUI);
-                plotData.clearDataset(); //need to clear plot if new roster is loaded
             } catch (NullPointerException e) {
                 //There is no tableGUI in mainView.
             }
@@ -75,10 +73,8 @@ class MenuOptionListener implements MenuListener, ActionListener{
                 } catch (NullPointerException e) {
                     //There is no tableGUI in mainView.
                 }
-                attendanceTable.updateTableData(picker.getModel().getMonth()+1, picker.getModel().getDay(), plotData);
+                attendanceTable.updateTableData(picker.getModel().getMonth(), picker.getModel().getDay());
                 tableGUI = attendanceTable.prepareGUI();
-                //when attendance is added, plot needs to be updated
-                // plotData.createDataset(picker.getModel().getMonth()+1, picker.getModel().getDay());
                 mainView.add(tableGUI);
                 mainView.validate();
                 mainView.repaint();
@@ -92,6 +88,7 @@ class MenuOptionListener implements MenuListener, ActionListener{
             }
         }
         if (actionEvent.getSource() == plotDataItem){
+            PlotData plotData = new PlotData();
             plotData.prepareGUI();
         }
 
