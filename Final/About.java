@@ -16,13 +16,12 @@ public class About extends JDialog {
         setTitle("About Us");
         setSize(300, 200);
         setVisible(true);
-
     }
 
     private String setMessage(){
 
         String teamInformation = "<html>Name, Email<br/>Jeffery Erskine, jserskin@asu.edu<br/>" +
-                "Thao Vu, thaovu@asu.edu<br/>" + "your name, email<br/>" + "your name, email<br/>" + "Jocelyn Zaman, jzaman@asu.edu<html>";
+                "Thao Vu, thaovu@asu.edu<br/>" + "Leif Hilding, lhilding@asu.edu<br/>" + "Jan de Waard, jddewaar@asu.edu<br/>" + "Jocelyn Zaman, jzaman@asu.edu<html>";
 
         return teamInformation;
     }
