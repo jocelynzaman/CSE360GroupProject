@@ -73,15 +73,22 @@ public class AttendanceTable{
     {
         Search searchFile = new Search();
         String fileName = searchFile.search();
-        CSVReader readFile = new CSVReader();
-        attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
-        attendanceList.addAttendence(month, day, fileName);
-        String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
-        Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
-        tableModel.addColumn(header, columnData);
+        if (fileName != "FILE_NOT_OPEN")
+        {
+            CSVReader readFile = new CSVReader();
+            attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
+            attendanceList.addAttendence(month, day, fileName);
+            String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
+            Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
+            tableModel.addColumn(header, columnData);
 
-        //when attendance is added, plot needs to be updated
-        plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+            //when attendance is added, plot needs to be updated
+            plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+        }
+        else
+        {
+            System.out.println("No file was selected");
+        }
     }
 
     public void exportTable() throws IOException {
