@@ -51,7 +51,7 @@ public class PlotData extends JDialog {
 
     public void setChart()
     {   
-        chart = ChartFactory.createScatterPlot("Attendance Plot", "X-Axis", "Count", dataset, PlotOrientation.VERTICAL, true, true, false);
+        chart = ChartFactory.createScatterPlot("Attendance Plot", "Attendance Percentage", "Student Count", dataset, PlotOrientation.VERTICAL, true, true, false);
         plot = (XYPlot)chart.getPlot();
         domain = (NumberAxis)plot.getDomainAxis();
         domain.setRange(0,100);
