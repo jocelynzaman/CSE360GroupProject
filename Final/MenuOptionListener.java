@@ -28,6 +28,12 @@ class MenuOptionListener implements MenuListener, ActionListener{
     JPanel datePanel = new JPanel();
     DatePicker picker = new JDatePicker();
 
+    //flag to check if roster has been loaded
+    boolean rosterLoaded = false;
+
+    //Error Dialog box
+    JOptionPane errorDialog = new JOptionPane();
+
     public MenuOptionListener(MainMenu menu, JMenuItem load, JMenuItem add, JMenuItem save, JMenuItem plot)
     {
         mainView = menu;
@@ -49,34 +55,48 @@ class MenuOptionListener implements MenuListener, ActionListener{
             }
             attendanceTable.setTableRoster();
             tableGUI = attendanceTable.prepareGUI();
+            rosterLoaded = true;
             mainView.add(tableGUI); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
         }
         if (actionEvent.getSource() == addAttendanceItem){
-            //Show Date Picker
-            picker.setTextEditable(true);
-            picker.setShowYearButtons(true);
-            datePanel.add((JComponent)picker);
-            JPanel DatePanel = new JPanel();
-            DatePanel.setLayout(new BorderLayout());
-            DatePanel.add(datePanel, BorderLayout.WEST);
-            BorderLayout fb = new BorderLayout();
-            dateDialog.setSize(300,100);
-            dateDialog.add(datePanel);
-            dateDialog.setVisible(true);
-            
-            //Setup updated JTable
-            if (picker.getModel().isSelected())
+            try {
+                mainView.remove(tableGUI);
+            } catch (NullPointerException e) {
+                //There is no tableGUI in mainView.
+                System.out.println("The roster has not been loaded yet.");
+            }
+            if (rosterLoaded)
             {
-                try {
-                    mainView.remove(tableGUI);
-                } catch (NullPointerException e) {
-                    //There is no tableGUI in mainView.
+                //Show Date Picker
+                picker.setTextEditable(true);
+                picker.setShowYearButtons(true);
+                datePanel.add((JComponent)picker);
+                JPanel DatePanel = new JPanel();
+                DatePanel.setLayout(new BorderLayout());
+                DatePanel.add(datePanel, BorderLayout.WEST);
+                dateDialog.setSize(300,100);
+                dateDialog.add(datePanel);
+                dateDialog.setVisible(true);
+                //Setup updated JTable
+                if (picker.getModel().isSelected())
+                {
+                    picker.getModel().setSelected(false);
+                    try {
+                        mainView.remove(tableGUI);
+                    } catch (NullPointerException e) {
+                        //There is no tableGUI in mainView.
+                    }
+                    attendanceTable.updateTableData(picker.getModel().getMonth()+1, picker.getModel().getDay(), plotData);
+                    dateDialog.setVisible(false);
+                    tableGUI = attendanceTable.prepareGUI();
+                    mainView.add(tableGUI);
+                    mainView.validate();
+                    mainView.repaint();
                 }
-                attendanceTable.updateTableData(picker.getModel().getMonth()+1, picker.getModel().getDay(), plotData);
-                tableGUI = attendanceTable.prepareGUI();
-                mainView.add(tableGUI);
-                mainView.validate();
-                mainView.repaint();
+            }
+            else
+            {
+                errorDialog.showMessageDialog(new JFrame(), "Need to load a roster first", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         if (actionEvent.getSource() == saveItem){
