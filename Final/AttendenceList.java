@@ -10,6 +10,8 @@ public class AttendenceList {
     private Roster sRoster;
     private int size;
     private CSVReader fileReader;
+    JDialog message = new JDialog();
+    JLabel text = new JLabel("", SwingConstants.CENTER);
 
     //constructor
     public AttendenceList(Roster sRoster, int size, CSVReader reader)
@@ -23,8 +25,7 @@ public class AttendenceList {
     //display pop-up window with attendee information
     public void displayMessage(Attendance current)
     {
-        JDialog message = new JDialog();
-        JLabel text = new JLabel(current.getMessage(), SwingConstants.CENTER);
+        text.setText(current.getMessage());
         message.add(text);
         message.setSize(300, 200);
         message.setVisible(true);
