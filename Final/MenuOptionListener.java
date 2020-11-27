@@ -55,10 +55,15 @@ class MenuOptionListener implements MenuListener, ActionListener{
             } catch (NullPointerException e) {
                 //There is no tableGUI in mainView.
             }
-            attendanceTable.setTableRoster();
-            tableGUI = attendanceTable.prepareGUI();
-            rosterLoaded = true;
-            mainView.add(tableGUI); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
+            try {
+                attendanceTable.setTableRoster();
+                tableGUI = attendanceTable.prepareGUI();
+                rosterLoaded = true;
+                mainView.add(tableGUI); //prepareGUI returns NULL if user exits menu, does not cause error as far as I can see
+            } catch(NullPointerException pipipupu) {
+                pipipupu.printStackTrace();
+                rosterLoaded = false;
+            }
         }
         if (actionEvent.getSource() == addAttendanceItem){
             try {
@@ -84,23 +89,26 @@ class MenuOptionListener implements MenuListener, ActionListener{
                 dateDialog.add(dateButton);
                 dateDialog.setVisible(true);
 
-                //Setup updated JTable
-                // if (picker.getModel().isSelected())
-                if (dateButton.getModel().isPressed())
-                {
-                    picker.getModel().setSelected(false);
-                    try {
-                        mainView.remove(tableGUI);
-                    } catch (NullPointerException e) {
-                        //There is no tableGUI in mainView.
-                    }
-                    attendanceTable.updateTableData(picker.getModel().getMonth()+1, picker.getModel().getDay(), plotData);
-                    dateDialog.setVisible(false);
-                    tableGUI = attendanceTable.prepareGUI();
-                    mainView.add(tableGUI);
-                    mainView.validate();
-                    mainView.repaint();
-                }
+                dateButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent a)
+                        {
+                        if (picker.getModel().isSelected()) {
+                            picker.getModel().setSelected(false);
+                            try {
+                                mainView.remove(tableGUI);
+                            } catch (NullPointerException e) {
+                                // There is no tableGUI in mainView.
+                            }
+                            attendanceTable.updateTableData(picker.getModel().getMonth() + 1,
+                                    picker.getModel().getDay(), plotData);
+                            dateDialog.setVisible(false);
+                            tableGUI = attendanceTable.prepareGUI();
+                            mainView.add(tableGUI);
+                            mainView.validate();
+                            mainView.repaint();
+                        }
+                        }
+                });
             }
             else
             {
