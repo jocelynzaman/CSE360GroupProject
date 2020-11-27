@@ -32,9 +32,9 @@ public class AttendenceList {
     }
 
     //add new Attendance object
-    public void addAttendence(int month, int day, String fileName)
+    public void addAttendence(int month, int day, int year, String fileName)
     {
-        Attendance newAttendance = new Attendance(month, day, sRoster.getSize(), fileName);
+        Attendance newAttendance = new Attendance(month, day, year, sRoster.getSize(), fileName);
         newAttendance.fill(sRoster, fileReader);
         aList.add(newAttendance);
         displayMessage(newAttendance);

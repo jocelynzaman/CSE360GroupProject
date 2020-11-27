@@ -100,7 +100,7 @@ class MenuOptionListener implements MenuListener, ActionListener{
                                 // There is no tableGUI in mainView.
                             }
                             attendanceTable.updateTableData(picker.getModel().getMonth() + 1,
-                                    picker.getModel().getDay(), plotData);
+                                    picker.getModel().getDay(), picker.getModel().getYear(), plotData);
                             dateDialog.setVisible(false);
                             tableGUI = attendanceTable.prepareGUI();
                             mainView.add(tableGUI);

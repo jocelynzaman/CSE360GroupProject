@@ -76,7 +76,7 @@ public class AttendanceTable{
     }
 
 
-    public void updateTableData(int month, int day, PlotData plot)
+    public void updateTableData(int month, int day, int year, PlotData plot)
     {
         Search searchFile = new Search();
         String fileName = searchFile.search();
@@ -86,14 +86,14 @@ public class AttendanceTable{
             for (int i = 0; i < attendanceList.getAttendance().size(); i++)
             {
                 if (attendanceList.getAttendance().get(i).getMonth().equals(attendanceList.getAttendance().get(i).convertMonth(month)) 
-                && attendanceList.getAttendance().get(i).getDay() == day)
+                && attendanceList.getAttendance().get(i).getDay() == day && attendanceList.getAttendance().get(i).getYear() == year)
                 {
                     duplicateDate = true;
                 }
             }
             if (!duplicateDate)
             {
-                attendanceList.addAttendence(month, day, fileName);
+                attendanceList.addAttendence(month, day, year, fileName);
                 String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
                 Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
                 tableModel.addColumn(header, columnData);

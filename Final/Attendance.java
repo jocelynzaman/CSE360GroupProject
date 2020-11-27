@@ -7,6 +7,7 @@ public class Attendance{
     //Attendance attributes
     private String month;
     private int day;
+    private int year;
     private int attendees;
     private int additional;
     private int[] times;
@@ -15,10 +16,11 @@ public class Attendance{
     private String fileName;
 
 
-    public Attendance(int month, int day, int rosterSize, String fileName)
+    public Attendance(int month, int day, int year, int rosterSize, String fileName)
     {
         this.month = convertMonth(month);
         this.day = day;
+        this.year = year;
         this.attendees = 0;
         this.additional = 0;
         times = initArray(times, rosterSize);
@@ -159,6 +161,11 @@ public class Attendance{
     public int getDay()
     {
         return day;
+    }
+
+    public int getYear()
+    {
+        return year;
     }
 
     public int getAttendance()
