@@ -26,7 +26,9 @@ class MenuOptionListener implements MenuListener, ActionListener{
     //Date Picker
     JDialog dateDialog = new JDialog();
     JPanel datePanel = new JPanel();
+    JPanel DatePanel = new JPanel();
     DatePicker picker = new JDatePicker();
+    JButton dateButton = new JButton("Confirm");
 
     //flag to check if roster has been loaded
     boolean rosterLoaded = false;
@@ -71,14 +73,20 @@ class MenuOptionListener implements MenuListener, ActionListener{
                 picker.setTextEditable(true);
                 picker.setShowYearButtons(true);
                 datePanel.add((JComponent)picker);
-                JPanel DatePanel = new JPanel();
+                datePanel.setSize(100,100);
+                dateButton.setSize(50,50);
+
                 DatePanel.setLayout(new BorderLayout());
-                DatePanel.add(datePanel, BorderLayout.WEST);
+                DatePanel.add(datePanel);
+                dateDialog.setLayout(new GridLayout(0,1));
                 dateDialog.setSize(300,100);
                 dateDialog.add(datePanel);
+                dateDialog.add(dateButton);
                 dateDialog.setVisible(true);
+
                 //Setup updated JTable
-                if (picker.getModel().isSelected())
+                // if (picker.getModel().isSelected())
+                if (dateButton.getModel().isPressed())
                 {
                     picker.getModel().setSelected(false);
                     try {
