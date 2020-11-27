@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AttendanceTable{
+    CSVReader readFile;
     DefaultTableModel tableModel;
     JTable attendanceTable;
     String[][] dataCollected;
@@ -18,6 +19,12 @@ public class AttendanceTable{
     ArrayList<ArrayList<String>> dynamicdataCollected;
     Roster loadARoster;
     AttendenceList attendanceList;
+
+    //Error Dialog box
+    JOptionPane errorDialog = new JOptionPane();
+
+    //flag for duplicate date
+    boolean duplicateDate = false;
 
     public AttendanceTable(){
         // prepareGUI();
@@ -46,7 +53,6 @@ public class AttendanceTable{
         dataCollected = setTableData();
         tableModel = new DefaultTableModel(dataCollected, dynamicColumnHeader.toArray());
         attendanceTable.setModel(tableModel);
-
     }
 
     private ArrayList<String> setTableHeader(){
@@ -59,10 +65,11 @@ public class AttendanceTable{
     private String[][] setTableData(){
         Search searchFile = new Search();
         String fileName = searchFile.search();
-        CSVReader readFile = new CSVReader();
+        readFile = new CSVReader();
         loadARoster = new Roster(readFile);
         dynamicdataCollected = loadARoster.fill(fileName);
         dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
+        attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
         System.out.println(dynamicdataCollected.size());
 
         return dataCollected;
@@ -75,15 +82,30 @@ public class AttendanceTable{
         String fileName = searchFile.search();
         if (fileName != "FILE_NOT_OPEN")
         {
-            CSVReader readFile = new CSVReader();
-            attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
-            attendanceList.addAttendence(month, day, fileName);
-            String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
-            Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
-            tableModel.addColumn(header, columnData);
+            //check for duplicate dates
+            for (int i = 0; i < attendanceList.getAttendance().size(); i++)
+            {
+                if (attendanceList.getAttendance().get(i).getMonth().equals(attendanceList.getAttendance().get(i).convertMonth(month)) 
+                && attendanceList.getAttendance().get(i).getDay() == day)
+                {
+                    duplicateDate = true;
+                }
+            }
+            if (!duplicateDate)
+            {
+                attendanceList.addAttendence(month, day, fileName);
+                String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
+                Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
+                tableModel.addColumn(header, columnData);
 
-            //when attendance is added, plot needs to be updated
-            plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+                //when attendance is added, plot needs to be updated
+                plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+            }  
+            else
+            {
+                errorDialog.showMessageDialog(new JFrame(), "This date has already been added to the table.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            duplicateDate = false;
         }
         else
         {
