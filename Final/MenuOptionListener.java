@@ -112,13 +112,18 @@ class MenuOptionListener implements MenuListener, ActionListener {
         }
         if (actionEvent.getSource() == saveItem) {
             if (rosterLoaded) {
-                try {
-                    attendanceTable.exportTable();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (attendanceTable.attendanceList.getAttendance().size() > 0) {
+                    try {
+                        attendanceTable.exportTable();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error", JOptionPane.WARNING_MESSAGE);
                 }
+                
             } else {
-                JOptionPane.showMessageDialog(null, "Load Roster First", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error", JOptionPane.WARNING_MESSAGE);
             }
             
         }
