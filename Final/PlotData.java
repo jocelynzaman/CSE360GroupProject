@@ -62,7 +62,7 @@ public class PlotData extends JDialog {
 
     //TODO: add update(Observable o, Object arg)
 
-    public void createDataset(String month, int day, int[] times)
+    public void createDataset(String month, int day, int year, int[] times)
     {
         if (plot == null)
         {
@@ -71,7 +71,7 @@ public class PlotData extends JDialog {
         range.setRange(0,times.length);
         range.setTickUnit(new NumberTickUnit(1));
 
-        String seriesName = month + " " + day;
+        String seriesName = month + " " + day + ", " + year;
         XYSeries series1 = new XYSeries(seriesName);  
         dataset.addSeries(series1);
         for (int i = 0; i <= 100; i+=10)

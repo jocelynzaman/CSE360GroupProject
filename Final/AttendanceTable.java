@@ -113,12 +113,12 @@ public class AttendanceTable{
                 attendanceList.addAttendence(month, day, year, fileName);
                 if (attendanceList.getAttendance().size() > 0)
                 {
-                    String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
+                    String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day + ", " + year;
                     Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
                     tableModel.addColumn(header, columnData);
 
                     //when attendance is added, plot needs to be updated
-                    plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+                    plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, year, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
                 }
                 else
                 {
