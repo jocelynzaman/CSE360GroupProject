@@ -65,10 +65,12 @@ public class AttendanceTable{
     }
 
     private String[][] setTableData(){
+        FileNotFound = false;
         Search searchFile = new Search();
         String fileName = searchFile.search();
         if (fileName == "FILE_NOT_OPEN") {
-            if (ExistedFileName != null) {
+            if (ExistedFileName != "") {
+                System.out.println("Reached this");
                 fileName = ExistedFileName;
             }
 
@@ -81,12 +83,11 @@ public class AttendanceTable{
             if (dynamicdataCollected.size() > 0) {
                 dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
                 attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
-            } else {
-                JOptionPane.showMessageDialog(null, "Please select a valid file.", "Error", JOptionPane.WARNING_MESSAGE);
             }
             System.out.println(dynamicdataCollected.size());
         } else {
             FileNotFound = true;
+            System.out.println("FILENOTFOUND");
         }
 
         return dataCollected;

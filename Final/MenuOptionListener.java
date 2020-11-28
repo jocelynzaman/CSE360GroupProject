@@ -53,7 +53,8 @@ class MenuOptionListener implements MenuListener, ActionListener {
                 attendanceTable.setTableRoster();
                 //System.out.println("Size of Dynamic " + attendanceTable.dynamicdataCollected.size());
                 if (!attendanceTable.FileNotFound) {
-                    System.out.println("reached");
+
+                    //System.out.println("reached");
                     try {
                         mainView.remove(tableGUI);
                         plotData.clearDataset(); //need to clear plot if new roster is loaded
