@@ -111,14 +111,23 @@ class MenuOptionListener implements MenuListener, ActionListener {
             }
         }
         if (actionEvent.getSource() == saveItem) {
-            try {
-                attendanceTable.exportTable();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (rosterLoaded) {
+                try {
+                    attendanceTable.exportTable();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Load Roster First", "Error", JOptionPane.WARNING_MESSAGE);
             }
+            
         }
         if (actionEvent.getSource() == plotDataItem) {
-            plotData.prepareGUI();
+            if (rosterLoaded) {
+                plotData.prepareGUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Load Roster First", "Error", JOptionPane.WARNING_MESSAGE);
+            }
         }
 
     }
