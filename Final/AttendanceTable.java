@@ -111,12 +111,19 @@ public class AttendanceTable{
             if (!duplicateDate)
             {
                 attendanceList.addAttendence(month, day, year, fileName);
-                String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
-                Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
-                tableModel.addColumn(header, columnData);
+                if (attendanceList.getAttendance().size() > 0)
+                {
+                    String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day;
+                    Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
+                    tableModel.addColumn(header, columnData);
 
-                //when attendance is added, plot needs to be updated
-                plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+                    //when attendance is added, plot needs to be updated
+                    plot.createDataset(attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month), day, attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getTimes());
+                }
+                else
+                {
+                    errorDialog.showMessageDialog(new JFrame(), "Invalid attendance file.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }  
             else
             {

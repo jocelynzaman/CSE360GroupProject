@@ -34,12 +34,26 @@ public class AttendenceList {
     //add new Attendance object
     public void addAttendence(int month, int day, int year, String fileName)
     {
-        Attendance newAttendance = new Attendance(month, day, year, sRoster.getSize(), fileName);
-        newAttendance.fill(sRoster, fileReader);
-        aList.add(newAttendance);
-        displayMessage(newAttendance);
-        // setChanged();
-        // notifyObservers();
+        if (validAttendanceFile(fileName))
+        {
+            Attendance newAttendance = new Attendance(month, day, year, sRoster.getSize(), fileName);
+            newAttendance.fill(sRoster, fileReader);
+            aList.add(newAttendance);
+            displayMessage(newAttendance);
+        }
+    }
+
+    public boolean validAttendanceFile(String fileName)
+    {
+        ArrayList<ArrayList<String>> table = fileReader.read(fileName);
+        for (int i = 0; i < table.size(); i++)
+        {
+            if (table.get(i).size() > 2)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public ArrayList<Attendance> getAttendance()
