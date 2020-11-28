@@ -124,9 +124,13 @@ class MenuOptionListener implements MenuListener, ActionListener {
         }
         if (actionEvent.getSource() == plotDataItem) {
             if (rosterLoaded) {
-                plotData.prepareGUI();
+                if (attendanceTable.attendanceList.getAttendance().size() > 0) {
+                    plotData.prepareGUI();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error", JOptionPane.WARNING_MESSAGE);
+                } 
             } else {
-                JOptionPane.showMessageDialog(null, "Load Roster First", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
 
