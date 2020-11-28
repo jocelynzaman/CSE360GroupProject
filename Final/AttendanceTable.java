@@ -25,6 +25,8 @@ public class AttendanceTable{
 
     //flag for duplicate date
     boolean duplicateDate = false;
+    boolean FileNotFound = false;
+    private String ExistedFileName = "";
 
     public AttendanceTable(){
         // prepareGUI();
@@ -65,12 +67,27 @@ public class AttendanceTable{
     private String[][] setTableData(){
         Search searchFile = new Search();
         String fileName = searchFile.search();
-        readFile = new CSVReader();
-        loadARoster = new Roster(readFile);
-        dynamicdataCollected = loadARoster.fill(fileName);
-        dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
-        attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
-        System.out.println(dynamicdataCollected.size());
+        if (fileName == "FILE_NOT_OPEN") {
+            if (ExistedFileName != null) {
+                fileName = ExistedFileName;
+            }
+
+        }
+        if (fileName != "FILE_NOT_OPEN"){
+            ExistedFileName = fileName;
+            readFile = new CSVReader();
+            loadARoster = new Roster(readFile);
+            dynamicdataCollected = loadARoster.fill(fileName);
+            if (dynamicdataCollected.size() > 0) {
+                dataCollected = dynamicdataCollected.stream().map(l -> l.stream().toArray(String[]::new)).toArray(String[][]::new);
+                attendanceList = new AttendenceList(loadARoster, loadARoster.getSize(), readFile);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a valid file.", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            System.out.println(dynamicdataCollected.size());
+        } else {
+            FileNotFound = true;
+        }
 
         return dataCollected;
     }

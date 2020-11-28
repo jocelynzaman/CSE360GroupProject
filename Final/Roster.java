@@ -8,6 +8,7 @@ public class Roster extends ArrayList<Student>{
     //private ArrayList<Student> sList;
     private int size;
     private CSVReader fileReader ;
+    ArrayList<ArrayList<String>> newTable = new ArrayList<ArrayList<String>>();
 
     public Roster(CSVReader reader)
     {
@@ -19,23 +20,31 @@ public class Roster extends ArrayList<Student>{
     //this fills a roster based on a given CSV file
     public ArrayList<ArrayList<String>> fill(String fileName)
     {
-        //generating table of student information
-        ArrayList<ArrayList<String>> table = fileReader.read(fileName);
-
-        //grabbing the y dimension of the table
-        int ySize = table.size();
-
-        for (int yy = 0; yy < ySize; yy++)
         {
-            //checking if given ID is a duplicate
-            if (!duplicateCheck(table.get(yy).get(0)))
+            //generating table of student information
+            ArrayList<ArrayList<String>> table = fileReader.read(fileName);
+    
+            //grabbing the y dimension of the table
+            int ySize = table.size();
+    
+            for (int yy = 0; yy < ySize; yy++)
             {
-                ArrayList<String> temp = table.get(yy);
-                addStudent(temp.get(0), temp.get(1), temp.get(2), temp.get(3), temp.get(4), temp.get(5));
+                //checking if given ID is a duplicate
+                if (!duplicateCheck(table.get(yy).get(0)))
+                {
+                    ArrayList<String> temp = table.get(yy);
+                    if (temp.size() == 6) {
+                        newTable.add(temp);
+                        addStudent(temp.get(0), temp.get(1), temp.get(2), temp.get(3), temp.get(4), temp.get(5));
+                    }
+                    else{
+                        System.out.println(temp.get(1));
+                    }
+                }
+                //else duplicate id has been found and not added
             }
-            //else duplicate id has been found and not added
+            return newTable;
         }
-        return table;
     }
 
     public boolean addStudent(String id, String first, String last, String program, String level, String ASURITE)

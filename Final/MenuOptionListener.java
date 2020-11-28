@@ -18,7 +18,7 @@ import java.io.IOException;
 class MenuOptionListener implements MenuListener, ActionListener {
     About aboutDialog = new About();
     MainMenu mainView;
-    JMenuItem loadARoasterItem, addAttendanceItem, saveItem, plotDataItem;
+    JMenuItem loadARosterItem, addAttendanceItem, saveItem, plotDataItem;
     JScrollPane tableGUI;
     AttendanceTable attendanceTable = new AttendanceTable();
     PlotData plotData = new PlotData();
@@ -38,7 +38,7 @@ class MenuOptionListener implements MenuListener, ActionListener {
 
     public MenuOptionListener(MainMenu menu, JMenuItem load, JMenuItem add, JMenuItem save, JMenuItem plot) {
         mainView = menu;
-        loadARoasterItem = load;
+        loadARosterItem = load;
         addAttendanceItem = add;
         saveItem = save;
         plotDataItem = plot;
@@ -47,24 +47,42 @@ class MenuOptionListener implements MenuListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if (actionEvent.getSource() == loadARoasterItem) {
-            try {
-                mainView.remove(tableGUI);
-                mainView.repaint();
-                mainView.revalidate();
-                plotData.clearDataset(); // need to clear plot if new roster is loaded
-            } catch (NullPointerException e) {
-                // There is no tableGUI in mainView.
-            }
+        if (actionEvent.getSource() == loadARosterItem){
+            JScrollPane tempTableGUI = null;
             try {
                 attendanceTable.setTableRoster();
-                tableGUI = attendanceTable.prepareGUI();
-                rosterLoaded = true;
-                mainView.add(tableGUI); // prepareGUI returns NULL if user exits menu, does not cause error as far as I
-                                        // can see
-            } catch (NullPointerException pipipupu) {
-                pipipupu.printStackTrace();
-                rosterLoaded = false;
+                //System.out.println("Size of Dynamic " + attendanceTable.dynamicdataCollected.size());
+                if (!attendanceTable.FileNotFound) {
+                    System.out.println("reached");
+                    try {
+                        mainView.remove(tableGUI);
+                        plotData.clearDataset(); //need to clear plot if new roster is loaded
+                    } catch (NullPointerException e) {
+                        //There is no tableGUI in mainView.
+                    }
+                    try {
+                        tableGUI = attendanceTable.prepareGUI();
+                        rosterLoaded = true;
+                    } catch (NullPointerException e) {
+                        //Invalid Column Space
+                        rosterLoaded = false;
+                    }
+                    mainView.add(tableGUI);
+
+                }
+            } catch(NullPointerException pipipupu) {
+
+                if (tempTableGUI != null) {
+                    tableGUI = tempTableGUI;
+                    rosterLoaded = true;
+                    mainView.add(tableGUI);
+                }
+                else {
+                    pipipupu.printStackTrace();
+                    rosterLoaded = false;
+                }
+
+
             }
         }
         if (actionEvent.getSource() == addAttendanceItem) {
