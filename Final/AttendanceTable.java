@@ -25,8 +25,14 @@ public class AttendanceTable{
 
     //flag for duplicate date
     boolean duplicateDate = false;
+
+    //flag for invalid attendance file
+    boolean validAttendance = false;
+
     boolean FileNotFound = false;
     private String ExistedFileName = "";
+
+
 
     public AttendanceTable(){
         // prepareGUI();
@@ -111,8 +117,8 @@ public class AttendanceTable{
             }
             if (!duplicateDate)
             {
-                attendanceList.addAttendence(month, day, year, fileName);
-                if (attendanceList.getAttendance().size() > 0)
+                validAttendance = attendanceList.addAttendence(month, day, year, fileName);
+                if (validAttendance)
                 {
                     String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day + ", " + year;
                     Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();

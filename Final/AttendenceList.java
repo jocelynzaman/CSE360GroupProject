@@ -32,7 +32,7 @@ public class AttendenceList {
     }
 
     //add new Attendance object
-    public void addAttendence(int month, int day, int year, String fileName)
+    public boolean addAttendence(int month, int day, int year, String fileName)
     {
         if (validAttendanceFile(fileName))
         {
@@ -40,7 +40,9 @@ public class AttendenceList {
             newAttendance.fill(sRoster, fileReader);
             aList.add(newAttendance);
             displayMessage(newAttendance);
+            return true;
         }
+        return false;
     }
 
     public boolean validAttendanceFile(String fileName)
