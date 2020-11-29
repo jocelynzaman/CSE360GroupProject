@@ -2,8 +2,6 @@
  * Author: Thao Vu
  * SID: 127349445
  */
-package net.javacode.swing;
-
 
 import java.io.*;
 import java.util.ArrayList;
