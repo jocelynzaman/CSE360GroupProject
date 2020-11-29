@@ -1,3 +1,8 @@
+/**
+ * This class stores the attendence information for students and unregistered
+ * attendees for a single date
+ */
+
 import java.util.ArrayList;
 
 import javax.lang.model.util.ElementScanner14;
@@ -15,8 +20,14 @@ public class Attendance{
     private ArrayList<UnregisteredAttendee> unregistered; //An arrayList used to store unregistereAttendee objects
     private String fileName; //The name of the file that the attendence will pull data
 
-
-    //Constructor for the attendence class
+    /**
+     * Constructor for the attendence class
+     * @param month, used to initialize month attribute
+     * @param day, used to initialize day attribute
+     * @param year, used to initialize year attribute
+     * @param rosterSize, used to initialize times array
+     * @param fileName, used to initialize fileName attribute
+     */
     public Attendance(int month, int day, int year, int rosterSize, String fileName)
     {
         this.month = convertMonth(month);
@@ -30,7 +41,12 @@ public class Attendance{
         this.fileName = fileName;
     }
 
-    //initializes every value in an int array to be 0
+    /**
+     * initializes every value in an int array to be 0
+     * @param array, array to be initialized
+     * @param size, size of array to be initialized
+     * @return
+     */
     public int[] initArray(int[] array, int size)
     {
         array = new int[size];
@@ -41,8 +57,12 @@ public class Attendance{
         return array;
     }
 
-    //This method fills the times array and unregistered arrayList with
-    //registered and unregistered user data respectively
+    /**
+     * This method fills the times array and unregistered arrayList with
+     *  registered and unregistered user data respectively
+     * @param sRoster, Roster to be accessed in order to correctly insert attendence data in the correct index
+     * @param fileReader, CSVReader object to be used to read in a file and store in a 2D array
+     */
     public void fill(Roster sRoster, CSVReader fileReader)
     {
         //temp values that will be used to find ASURITE index and fill times array
@@ -96,7 +116,12 @@ public class Attendance{
         additional = unregistered.size();
     }
 
-    //iterates through unregistered arrayList searching for duplicates by name
+    /**
+     * iterates through unregistered arrayList searching for duplicates by name
+     * @param list, ArrayList of unregisteredAttendees
+     * @param testName, name to be checked against when searching for duplicates
+     * @return the integer index of the object in list containing the testName, -1 if the obect is not found
+     */
     public int unregisteredDupeCheck(ArrayList<UnregisteredAttendee> list, String testName)
     {
         int size = list.size();
@@ -112,8 +137,12 @@ public class Attendance{
         return -1;
     }
 
-    //This returns a string by converting an integer from 1-12 into
-    //a corresponding month using a switch statement
+    /**
+     * Converts an integer from 1-12 into
+     * a corresponding month using a switch statement
+     * @param intMonth, integer representing the month to be converted to a String
+     * @return the String name of the month which was converted from an integer
+     */
     public String convertMonth(int intMonth)
     {
         String month;
@@ -161,37 +190,55 @@ public class Attendance{
         return month;
     }
 
-    //Accessor method for the month attribute
+    /**
+     * Accessor method for the month attribute
+     * @return the month attribute
+     */
     public String getMonth()
     {
         return month;
     }
 
-    //Accessor method for the day attribute
+    /**
+     * Accessor method for the day attribute
+     * @return the day attribute
+     */
     public int getDay()
     {
         return day;
     }
 
-    //Accessor method for the year attribute
+    /**
+     * Accessor method for the year attribute
+     * @return the year attribute
+     */
     public int getYear()
     {
         return year;
     }
 
-    //Accessor method for the attendence attribute
+    /**
+     * Accessor method for the attendees attribute
+     * @return the attendees attribute
+     */
     public int getAttendance()
     {
         return attendees;
     }
 
-    //Accessor method for the additional attribute
+    /**
+     * Accessor method for the additional attribute
+     * @return the additional attribute
+     */
     public int getAdditional()
     {
         return additional;
     }
 
-    //returns the array of time students spent in the lecture as strings
+    /**
+     * returns the array of time students spent in the lecture as strings
+     * @return a String[] of of the times integer array converted into String format
+     */
     public String[] getData()
     {
         String stringTimes[] = new String[timesSize];
@@ -202,20 +249,29 @@ public class Attendance{
         return stringTimes;
     }
 
-    //returns the times array as is, an integer array
+    /**
+     * returns the times array attribute as is, an integer array
+     * @return the times integer array attribute
+     */
     public int[] getTimes()
     {
         return times;
     }
 
-    //Accessor method for the size of the times array
+    /**
+     * Accessor method for the size of the times array
+     * @return timesSize
+     */
     public int getTimesSize()
     {
         return timesSize;
     }
 
-    //This method retuns a sring message which will be displayed in a
-    //window every time a new attendence object is added
+    /**
+     * This method retuns a sring message which will be displayed in a
+     * window every time a new attendence object is added
+     * @return the concatenated message
+     */
     public String getMessage()
     {
         String message = "";
@@ -239,7 +295,10 @@ public class Attendance{
         return message;
     }
 
-    //returns a string of all unregistered attendees and their attendence times
+    /**
+     * returns a string of all unregistered attendees and their attendence times
+     * @return concatenated message of unregistered attendee data
+     */
     public String listUnregistered()
     {
         String message = "";
