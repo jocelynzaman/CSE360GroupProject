@@ -146,7 +146,7 @@ public class AttendanceTable{
                 validAttendance = attendanceList.addAttendence(month, day, year, fileName);
                 if (validAttendance)
                 {
-                    String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day + ", " + year;
+                    String header = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).convertMonth(month) + " " + day + " " + year;
                     Object columnData[] = attendanceList.getAttendance().get(attendanceList.getAttendance().size()-1).getData();
                     tableModel.addColumn(header, columnData);
 
