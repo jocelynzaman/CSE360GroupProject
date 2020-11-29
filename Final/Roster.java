@@ -7,9 +7,11 @@ public class Roster extends ArrayList<Student>{
     //StudentList attributes
     //private ArrayList<Student> sList;
     private int size;
-    private CSVReader fileReader ;
-    ArrayList<ArrayList<String>> newTable = new ArrayList<ArrayList<String>>();
+    private CSVReader fileReader; //this is used to read CSV files and store their data in tables
+    ArrayList<ArrayList<String>> newTable = new ArrayList<ArrayList<String>>(); //this table is filled and returned
 
+    //Constructor for the Roster class
+    //Roster extends arraylist so it can be treated as such
     public Roster(CSVReader reader)
     {
         //sList = new ArrayList<Student>();
@@ -23,10 +25,10 @@ public class Roster extends ArrayList<Student>{
         {
             //generating table of student information
             ArrayList<ArrayList<String>> table = fileReader.read(fileName);
-    
+
             //grabbing the y dimension of the table
             int ySize = table.size();
-    
+
             for (int yy = 0; yy < ySize; yy++)
             {
                 //checking if given ID is a duplicate
@@ -47,6 +49,7 @@ public class Roster extends ArrayList<Student>{
         }
     }
 
+    //This method adds a student to the roster and increments the roster's size attribute
     public boolean addStudent(String id, String first, String last, String program, String level, String ASURITE)
     {
         try
@@ -61,7 +64,7 @@ public class Roster extends ArrayList<Student>{
         return true;
     }
 
-    //return index if found, -1 if not
+    //Returns index if found, -1 if not
     public int findIndex(String ASURITE)
     {
         for (int i = 0; i < size; i++)
@@ -74,6 +77,8 @@ public class Roster extends ArrayList<Student>{
         return -1;
     }
 
+    //Returns true if matching ID is found in roster,
+    //false otherwise
     public boolean duplicateCheck(String ID)
     {
         for (int i = 0; i < size; i++)
@@ -86,6 +91,7 @@ public class Roster extends ArrayList<Student>{
         return false;
     }
 
+    //Accessor method for the size attribute
     public int getSize()
     {
         return size;

@@ -6,14 +6,14 @@ import java.util.ArrayList;
 public class AttendenceList {
 
     //AttendanceList attributes
-    private ArrayList<Attendance> aList;
-    private Roster sRoster;
+    private ArrayList<Attendance> aList; //arrayList of attendance list objects
+    private Roster sRoster; //This class uses a roster as an attribute
     private int size;
     private CSVReader fileReader;
-    JDialog message = new JDialog();
+    JDialog message = new JDialog(); //message that will be displayed when new attendance object is added
     JLabel text = new JLabel("", SwingConstants.CENTER);
 
-    //constructor
+    //Constructor for the attendenceList class
     public AttendenceList(Roster sRoster, int size, CSVReader reader)
     {
         aList = new ArrayList<Attendance>();
@@ -31,7 +31,7 @@ public class AttendenceList {
         message.setVisible(true);
     }
 
-    //add new Attendance object
+    //add new Attendance object into aList arrayList
     public boolean addAttendence(int month, int day, int year, String fileName)
     {
         if (validAttendanceFile(fileName))
@@ -45,6 +45,8 @@ public class AttendenceList {
         return false;
     }
 
+    //Checks if the inputed file is a valid attendence file by ensuring that
+    //its width does not exceed 2, returns true if valid, false otherwise
     public boolean validAttendanceFile(String fileName)
     {
         ArrayList<ArrayList<String>> table = fileReader.read(fileName);
@@ -58,17 +60,18 @@ public class AttendenceList {
         return true;
     }
 
+    //Returns aList attribute
     public ArrayList<Attendance> getAttendance()
     {
         return aList;
     }
 
+    //Returns size attribute
     public int getSize()
     {
         return size;
     }
 
 }
-
 
 

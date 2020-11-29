@@ -8,14 +8,15 @@ public class Attendance{
     private String month;
     private int day;
     private int year;
-    private int attendees;
-    private int additional;
-    private int[] times;
-    private int timesSize;
-    private ArrayList<UnregisteredAttendee> unregistered;
-    private String fileName;
+    private int attendees; //amount of registered attendees
+    private int additional; //amount of unregistered attendees
+    private int[] times; //This array stores attendance time data for registered users
+    private int timesSize; //Size of array times
+    private ArrayList<UnregisteredAttendee> unregistered; //An arrayList used to store unregistereAttendee objects
+    private String fileName; //The name of the file that the attendence will pull data
 
 
+    //Constructor for the attendence class
     public Attendance(int month, int day, int year, int rosterSize, String fileName)
     {
         this.month = convertMonth(month);
@@ -29,6 +30,7 @@ public class Attendance{
         this.fileName = fileName;
     }
 
+    //initializes every value in an int array to be 0
     public int[] initArray(int[] array, int size)
     {
         array = new int[size];
@@ -39,6 +41,8 @@ public class Attendance{
         return array;
     }
 
+    //This method fills the times array and unregistered arrayList with
+    //registered and unregistered user data respectively
     public void fill(Roster sRoster, CSVReader fileReader)
     {
         //temp values that will be used to find ASURITE index and fill times array
@@ -73,15 +77,16 @@ public class Attendance{
                     attendees++;
                 }
             }
-            else
+            else //user is unregistered
             {
+                //check if this unregistered attendee has been logged yet
                 testUIndex = unregisteredDupeCheck(unregistered, testASURITE);
-                if (testUIndex == -1)
+                if (testUIndex == -1) //if not add new unregistered attendee object
                 {
                     UnregisteredAttendee UA = new UnregisteredAttendee(testASURITE, time);
                     unregistered.add(UA);
                 }
-                else
+                else //if yes, then sum both times together
                 {
                     unregistered.get(testUIndex).setTime(unregistered.get(testUIndex).getTime() + time);
                 }
@@ -91,6 +96,7 @@ public class Attendance{
         additional = unregistered.size();
     }
 
+    //iterates through unregistered arrayList searching for duplicates by name
     public int unregisteredDupeCheck(ArrayList<UnregisteredAttendee> list, String testName)
     {
         int size = list.size();
@@ -106,6 +112,8 @@ public class Attendance{
         return -1;
     }
 
+    //This returns a string by converting an integer from 1-12 into
+    //a corresponding month using a switch statement
     public String convertMonth(int intMonth)
     {
         String month;
@@ -153,32 +161,37 @@ public class Attendance{
         return month;
     }
 
+    //Accessor method for the month attribute
     public String getMonth()
     {
         return month;
     }
 
+    //Accessor method for the day attribute
     public int getDay()
     {
         return day;
     }
 
+    //Accessor method for the year attribute
     public int getYear()
     {
         return year;
     }
 
+    //Accessor method for the attendence attribute
     public int getAttendance()
     {
         return attendees;
     }
 
+    //Accessor method for the additional attribute
     public int getAdditional()
     {
         return additional;
     }
 
-    //returns the array of time students spent in the lecture
+    //returns the array of time students spent in the lecture as strings
     public String[] getData()
     {
         String stringTimes[] = new String[timesSize];
@@ -189,44 +202,61 @@ public class Attendance{
         return stringTimes;
     }
 
+    //returns the times array as is, an integer array
     public int[] getTimes()
     {
         return times;
     }
 
+    //Accessor method for the size of the times array
     public int getTimesSize()
     {
         return timesSize;
     }
 
+    //This method retuns a sring message which will be displayed in a
+    //window every time a new attendence object is added
     public String getMessage()
     {
         String message = "";
-        int size = unregistered.size();
 
         message += "<html>Data loaded for " + attendees
                 + " users in the roster.<br>";
-        if (additional != 0)
+        if (additional > 1)
         {
-            if (additional > 1)
+            message +=  additional + " additional attendees were found:<br>";
+            message += listUnregistered();
+        }
+        else if (additional == 0)
+        {
+            message += "No additional attendees were found<br>";
+        }
+        else
+        {
+            message += additional + " additional attendee was found:<br>";
+            message += listUnregistered();
+        }
+        return message;
+    }
+
+    //returns a string of all unregistered attendees and their attendence times
+    public String listUnregistered()
+    {
+        String message = "";
+        int size = unregistered.size();
+        for (int xx = 0; xx < size; xx++)
+        {
+            message += unregistered.get(xx).getName()
+                    + ", connected for ";
+
+            if (unregistered.get(xx).getTime() == 1)
             {
-                message +=  additional + " additional attendees were found:<br>";
-            }
-            else if (additional == 0)
-            {
-                message += "No additional attendees were found<br>";
+                message += "1 minute<br>";
             }
             else
             {
-                message += additional + " additional attendee was found:<br>";
-            }
-
-            for (int xx = 0; xx < size; xx++)
-            {
-                message += unregistered.get(xx).getName()
-                        + ", connected for "
-                        + unregistered.get(xx).getTime()
-                        + " minute<br>";
+                message += unregistered.get(xx).getTime()
+                        + " minutes<br>";
             }
         }
         return message;
