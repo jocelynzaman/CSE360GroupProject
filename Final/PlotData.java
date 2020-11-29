@@ -1,27 +1,19 @@
 import javax.swing.*;
 
-import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.HorizontalAlignment;
 
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-import java.util.Observable;
-import java.util.Observer;
-
+/**
+ * The PlotData class will plot a scatter chart of Student Count vs Attendance Percentage for each attendance date.
+ */
 public class PlotData extends JDialog {
-    // TODO: use Observer to update plot
-
     JFreeChart chart;
     ChartPanel panel;
     XYPlot plot;
@@ -29,10 +21,17 @@ public class PlotData extends JDialog {
     NumberAxis range;
     XYSeriesCollection dataset = new XYSeriesCollection();
 
-    public PlotData() {
+    /**
+     * Constructor of PlotData class
+     */
+    public PlotData() 
+    {
 
     }
 
+    /**
+     * This method will set the components of the chart GUI for displaying to the user
+     */
     public void prepareGUI()
     {
         if (chart == null || plot == null || panel == null)
@@ -49,6 +48,9 @@ public class PlotData extends JDialog {
         setVisible(true);
     }
 
+    /**
+     * This method will set the details of the chart including domain, range, dataset, and titles.
+     */
     public void setChart()
     {   
         chart = ChartFactory.createScatterPlot("Attendance Plot", "Attendance Percentage", "Student Count", dataset, PlotOrientation.VERTICAL, true, true, false);
@@ -60,8 +62,13 @@ public class PlotData extends JDialog {
         panel = new ChartPanel(chart);
     }
 
-    //TODO: add update(Observable o, Object arg)
-
+    /**
+     * This method will create one series in the scatter plot based on the date and times of the attendance file.
+     * @param month
+     * @param day
+     * @param year
+     * @param times
+     */
     public void createDataset(String month, int day, int year, int[] times)
     {
         if (plot == null)
@@ -74,10 +81,14 @@ public class PlotData extends JDialog {
         String seriesName = month + " " + day + ", " + year;
         XYSeries series1 = new XYSeries(seriesName);  
         dataset.addSeries(series1);
-        for (int i = 0; i <= 100; i+=10)
+        
+        //Add the data points at each attendance percentage
+        for (int seriesIndex = 0; seriesIndex <= 100; seriesIndex +=10)
         {
-            series1.add(i, 0);
+            series1.add(seriesIndex, 0);
         }
+
+        //Update each data point by adding one if a student's attendance time falls within a certain time range
         for (int i = 0; i < times.length; i++)
         {
             if (times[i] == 0)
@@ -127,6 +138,9 @@ public class PlotData extends JDialog {
         }
     }
 
+    /**
+     * This method will clear all the series from the dataset of the plot.
+     */
     public void clearDataset()
     {
         dataset.removeAllSeries();
