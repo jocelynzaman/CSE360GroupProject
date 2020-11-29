@@ -1,4 +1,3 @@
-// package net.javacode.swing;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,6 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+/**
+ * This class generate GUI table for collected data when a roster csv file is loaded
+ * and update the table when an attendance csv file is selected
+ */
 
 public class AttendanceTable{
     CSVReader readFile;
@@ -33,13 +37,18 @@ public class AttendanceTable{
     private String ExistedFileName = "";
 
 
-
+    /**
+     * Constructor for Attendance Table class: make a new JTable
+     */
     public AttendanceTable(){
         // prepareGUI();
         attendanceTable = new JTable();
     }
 
 
+    /**
+     * @return GUI for attendance table in a JTable, then add it in a JScrollPane
+     */
     public JScrollPane prepareGUI(){
         // dynamicColumnHeader = setTableHeader();
         // dataCollected = setTableData();
@@ -47,7 +56,7 @@ public class AttendanceTable{
         if (dataCollected.length > 0) {
             paneGUI = new JScrollPane(attendanceTable);
             attendanceTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            paneGUI.setSize(300, 300);
+            paneGUI.setSize(300, 500);
             paneGUI.setVisible(true);
             return paneGUI;
         }
@@ -55,6 +64,9 @@ public class AttendanceTable{
         return null;
     }
 
+    /**
+     *  This method always et up the roster table with the input data from roster csv file
+     */
     public void setTableRoster()
     {
         dynamicColumnHeader = setTableHeader();
@@ -63,13 +75,21 @@ public class AttendanceTable{
         attendanceTable.setModel(tableModel);
     }
 
+    /**
+     * This method always set up headers for roster table
+     * @return an array of column headers for 6 fields
+     */
     private ArrayList<String> setTableHeader(){
-        dynamicColumnHeader = new ArrayList<String>();
+        ArrayList<String> columnHeader = new ArrayList<String>();
         String[] initialHeaders = {"ID", "First Name", "Last Name", "Program", "Level", "ASURITE"};
-        dynamicColumnHeader.addAll(Arrays.asList(initialHeaders));
-        return dynamicColumnHeader;
+        columnHeader.addAll(Arrays.asList(initialHeaders));
+        return columnHeader;
     }
 
+    /**
+     * This method always generate data for Roster table if the input file from user is valid
+     * @return a fixed size 2D array of table's data
+     */
     private String[][] setTableData(){
         FileNotFound = false;
         Search searchFile = new Search();
@@ -93,14 +113,20 @@ public class AttendanceTable{
             System.out.println(dynamicdataCollected.size());
         } else {
             FileNotFound = true;
-            System.out.println("FILENOTFOUND");
         }
 
         return dataCollected;
     }
 
 
-    public void updateTableData(int month, int day, int year, PlotData plot)
+    /**
+     * This method update the table with attendace data from attendance csv file and add in the table GUI
+     * a separate column for the date the attendance is collected
+     * @param month : user input for the month picked
+     * @param day : user input for the day picked
+     * @param year : user input for the year picked
+     */
+    public void updateTableData(int month, int day, int year)
     {
         Search searchFile = new Search();
         String fileName = searchFile.search();
@@ -138,14 +164,15 @@ public class AttendanceTable{
             }
             duplicateDate = false;
         }
-        else
-        {
-            System.out.println("No file was selected");
-        }
     }
 
+    /**
+     * This method save the table and export the table's data and headers into a separated
+     * csv file named AttendanceTableCollected in the user's local machine
+     * @throws IOException
+     */
     public void exportTable() throws IOException {
-        File exportFile = new File("Attendance.csv");
+        File exportFile = new File("AttendanceTableCollected.csv");
         TableModel model = attendanceTable.getModel();
         FileWriter out = new FileWriter(exportFile);
 
@@ -165,8 +192,4 @@ public class AttendanceTable{
         System.out.println("write out to: " + exportFile);
     }
 
-    // public void update(Observable o, int month, int day)
-    // {
-    //     // dynamicdataCollected.add(((AttendenceList)o).addAttendence(month, day, String fileName));
-    // }
 }
