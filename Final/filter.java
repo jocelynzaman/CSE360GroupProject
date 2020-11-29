@@ -2,9 +2,15 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 
-//The filter class overrides the fileChooser.FileFilter methods filtering for only directories and .csv file extensions
-public class filter extends FileFilter{
+/**
+ * The filter class overrides the fileChooser.
+ * FileFilter methods filtering for only directories and .csv file extensions
+*/
+ public class filter extends FileFilter{
 
+    /**
+     * Checks that the file is .csv or a directory before displaying (returning true)
+     */
 	@Override
 	public boolean accept(File file) {
         if (file.isDirectory()) {
@@ -22,9 +28,11 @@ public class filter extends FileFilter{
     
         return false;
 	}
-
+    /**
+     * displays to the user what are the acceptable file extensions
+     */
 	@Override
-	public String getDescription() { //displays to the user acceptable file extensions
+	public String getDescription() { 
 		return ".csv";
 	}
     
