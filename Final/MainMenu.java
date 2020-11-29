@@ -68,7 +68,10 @@ public class MainMenu extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(aboutMenu);
 	}
-
+	/**
+	 * The main() sets the title and size of the GUI and adds the controlPanel.
+	 * @param argv
+	 */
 	public static void main(String[] argv) {
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.prepareGUI();
