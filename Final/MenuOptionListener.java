@@ -13,8 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-// import java.util.Properties;
 
+//Listeners which controll how the menuitems behave, uses action listeners and 
+//mouse listeners to listen for clicks and action events on selected roster items
 class MenuOptionListener implements MenuListener, ActionListener {
     About aboutDialog = new About();
     MainMenu mainView;
@@ -44,50 +45,50 @@ class MenuOptionListener implements MenuListener, ActionListener {
         plotDataItem = plot;
     }
 
+    //Checks for actions performed on the fileMenu items
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if (actionEvent.getSource() == loadARosterItem){
+        //If the menu item load roster is clicked then a File explorer is opened and the selected roster file is loaded and displayed
+        if (actionEvent.getSource() == loadARosterItem) {
             JScrollPane tempTableGUI = null;
             try {
-                attendanceTable.setTableRoster();
-                //System.out.println("Size of Dynamic " + attendanceTable.dynamicdataCollected.size());
+                attendanceTable.setTableRoster(); //calls the setTableRoster() method to create a new roster
                 if (!attendanceTable.FileNotFound) {
 
-                    //System.out.println("reached");
                     try {
-                        mainView.remove(tableGUI);
-                        plotData.clearDataset(); //need to clear plot if new roster is loaded
+                        mainView.remove(tableGUI); //remove any existing tableGUI
+                        plotData.clearDataset(); // need to clear plot if new roster is loaded
                     } catch (NullPointerException e) {
-                        //There is no tableGUI in mainView.
+                        // There is no tableGUI in mainView.
+                        // Catches the case that the is no initial table GUI
                     }
                     try {
-                        tableGUI = attendanceTable.prepareGUI();
+                        tableGUI = attendanceTable.prepareGUI(); //prepares a new GUI with the new info
                         rosterLoaded = true;
                     } catch (NullPointerException e) {
-                        //Invalid Column Space
+                        // Invalid Column Space
                         rosterLoaded = false;
                     }
-                    mainView.add(tableGUI);
+                    mainView.add(tableGUI); //failing to create a new gui will add the old gui back
 
                 }
-            } catch(NullPointerException pipipupu) {
+            } catch (NullPointerException pipipupu) { //Exception Handling
 
                 if (tempTableGUI != null) {
                     tableGUI = tempTableGUI;
                     rosterLoaded = true;
                     mainView.add(tableGUI);
-                }
-                else {
+                } else {
                     pipipupu.printStackTrace();
                     rosterLoaded = false;
                 }
 
-
             }
         }
+        //If the menu item add attendance is clicked then a file explorer is opened which accepts attendance files
         if (actionEvent.getSource() == addAttendanceItem) {
-            
+            //Similar to the load roster method , however this one simplt adds attendance columns to the Roster
             if (rosterLoaded) {
                 // Show Date Picker
                 picker.setTextEditable(true);
@@ -104,18 +105,20 @@ class MenuOptionListener implements MenuListener, ActionListener {
                 dateDialog.add(dateButton);
                 dateDialog.setVisible(true);
 
-                
                 MainMenu.fileMenu.repaint();
+
+                //Listerner of if a date is selected and the Continue button is pressed.
 
                 dateButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent a) {
                         if (picker.getModel().isSelected()) {
-                            picker.getModel().setSelected(false);
-                            try {
+                            picker.getModel().setSelected(false); //resets the state of isSelected boolean to prevent crossover between instances of DatePicker
+                            try { //Removes existing roster item (same as in Roster)
                                 mainView.remove(tableGUI);
                             } catch (NullPointerException e) {
                                 // There is no tableGUI in mainView.
                             }
+                            //Updates the roster to have an attendance
                             attendanceTable.updateTableData(picker.getModel().getMonth() + 1,
                                     picker.getModel().getDay(), picker.getModel().getYear(), plotData);
                             dateDialog.setVisible(false);
@@ -129,6 +132,7 @@ class MenuOptionListener implements MenuListener, ActionListener {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+        //If save is selected. It checks that there is an existing roster and there has been attendance added
         if (actionEvent.getSource() == saveItem) {
             if (rosterLoaded) {
                 if (attendanceTable.attendanceList.getAttendance().size() > 0) {
@@ -138,31 +142,38 @@ class MenuOptionListener implements MenuListener, ActionListener {
                         e.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error",
+                            JOptionPane.WARNING_MESSAGE);
                 }
-                
+
             } else {
-                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error",
+                        JOptionPane.WARNING_MESSAGE);
             }
-            
+
         }
+        //plots data checks that there is a roster and that attendance has been added
         if (actionEvent.getSource() == plotDataItem) {
             if (rosterLoaded) {
                 if (attendanceTable.attendanceList.getAttendance().size() > 0) {
                     plotData.prepareGUI();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error", JOptionPane.WARNING_MESSAGE);
-                } 
+                    JOptionPane.showMessageDialog(null, "Need to add attendance first", "Error",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Need to load a roster first", "Error",
+                        JOptionPane.WARNING_MESSAGE);
             }
         }
 
     }
 
+    //Overrides the menuSelected method in mouseListener and checks that the about menu item is clicked.
+    //A mouse event listener is needed because otherwise hovering About after selecting File will trigger aboutSelected methods.
     @Override
     public void menuSelected(MenuEvent menuEvent) {
-        JMenu menuSelected = (JMenu) menuEvent.getSource();        
+        JMenu menuSelected = (JMenu) menuEvent.getSource();
 
         menuSelected.addMouseListener(new MouseListener() {
             @Override
@@ -199,12 +210,10 @@ class MenuOptionListener implements MenuListener, ActionListener {
 
     @Override
     public void menuDeselected(MenuEvent menuEvent) {
-        //System.out.println("Menu Deselected");
     }
 
     @Override
     public void menuCanceled(MenuEvent menuEvent) {
-        //System.out.println("Menu Canceled");
     }
 
 }
